@@ -1,0 +1,61 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.1, pytest-8.3.5, pluggy-1.5.0 -- D:\apps\python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\py\pysps
+configfile: pytest.ini
+plugins: Faker-37.1.0
+collecting ... collected 29 items
+
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_parser_initialization PASSED [  3%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_parse_file_success PASSED [  6%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_parse_nonexistent_file PASSED [ 10%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_parse_empty_file PASSED [ 13%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_diameter_peers_parsing PASSED [ 17%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_diameter_link_sets_parsing PASSED [ 20%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_diameter_links_parsing PASSED [ 24%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_mtp_destination_points_parsing PASSED [ 27%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_mtp_link_sets_parsing PASSED [ 31%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_mtp_links_parsing PASSED [ 34%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_meid_parsing PASSED [ 37%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_hierarchical_structure PASSED [ 41%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_ip_port_metadata PASSED [ 44%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_to_json PASSED [ 48%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_save_json PASSED [ 51%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_print_summary PASSED [ 55%]
+tests/test_links2json.py::TestSPSUnifiedLinksParser::test_get_topology PASSED [ 58%]
+tests/test_links2json.py::test_links_parser_initialization PASSED        [ 62%]
+tests/test_links2json.py::test_links_parser_parse_file PASSED            [ 65%]
+tests/test_links2json.py::test_links_parser_diameter_peers FAILED        [ 68%]
+tests/test_links2json.py::test_links_parser_diameter_link_sets FAILED    [ 72%]
+tests/test_links2json.py::test_links_parser_diameter_links FAILED        [ 75%]
+tests/test_links2json.py::test_links_parser_mtp_components FAILED        [ 79%]
+tests/test_links2json.py::test_links_parser_metadata PASSED              [ 82%]
+tests/test_links2json.py::test_links_parser_ip_extraction PASSED         [ 86%]
+tests/test_links2json.py::test_links_parser_nonexistent_file PASSED      [ 89%]
+tests/test_links2json.py::test_links_parser_empty_file PASSED            [ 93%]
+tests/test_links2json.py::test_links_parser_malformed_content PASSED     [ 96%]
+tests/test_links2json.py::test_links_parser_config_structure PASSED      [100%]
+
+================================== FAILURES ===================================
+______________________ test_links_parser_diameter_peers _______________________
+tests\test_links2json.py:349: in test_links_parser_diameter_peers
+    assert mme_peer is not None
+E   assert None is not None
+____________________ test_links_parser_diameter_link_sets _____________________
+tests\test_links2json.py:365: in test_links_parser_diameter_link_sets
+    assert "SPS_A_MME_DMLKS01" in link_set_names
+E   AssertionError: assert 'SPS_A_MME_DMLKS01' in [None, None, None]
+______________________ test_links_parser_diameter_links _______________________
+tests\test_links2json.py:384: in test_links_parser_diameter_links
+    assert mme_link is not None
+E   assert None is not None
+______________________ test_links_parser_mtp_components _______________________
+tests\test_links2json.py:402: in test_links_parser_mtp_components
+    assert dsp["std_name"] == "M2PA_SPS_B_01"
+E   KeyError: 'std_name'
+=========================== short test summary info ===========================
+FAILED tests/test_links2json.py::test_links_parser_diameter_peers - assert None is not None
+FAILED tests/test_links2json.py::test_links_parser_diameter_link_sets - AssertionError: assert 'SPS_A_MME_DMLKS01' in [None, None, None]
+FAILED tests/test_links2json.py::test_links_parser_diameter_links - assert None is not None
+FAILED tests/test_links2json.py::test_links_parser_mtp_components - KeyError: 'std_name'
+======================== 4 failed, 25 passed in 0.15s =========================
