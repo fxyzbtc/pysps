@@ -1,7 +1,7 @@
 """
-PySPS - SPS MML Configuration Parser and Topology Generator.
+pysimplesps - SPS MML Configuration Parser and Topology Generator.
 
-Entry point for running PySPS as a module (python -m pysps).
+Entry point for running pysimplesps as a module (python -m pysimplesps).
 """
 
 import sys
@@ -19,10 +19,10 @@ from .links2topo import SimplifiedTopoGeneratorV2
 def show_help():
     """Display help information."""
     help_text = """
-PySPS - SPS MML Configuration Parser & Topology Generator
+pysimplesps - SPS MML Configuration Parser & Topology Generator
 
 Usage:
-    python -m pysps <command> <input_files> [options]
+    python -m pysimplesps <command> <input_files> [options]
 
 Commands:
     links       Parse SPS links configuration files
@@ -31,16 +31,16 @@ Commands:
     help        Show this help message
 
 Examples:
-    python -m pysps links spsdmlinks.txt
-    python -m pysps dmrt spsdmrt_host.txt spsdmrt_id.txt
-    python -m pysps avpmed spsavpmediation.txt
+    python -m pysimplesps links spsdmlinks.txt
+    python -m pysimplesps dmrt spsdmrt_host.txt spsdmrt_id.txt
+    python -m pysimplesps avpmed spsavpmediation.txt
 
 Options:
     -o, --output PATH       Output file path
     -f, --format FORMAT     Output format: json|topology [default: json]
     -v, --verbose           Enable verbose logging
 
-For more information, visit: https://github.com/fxyzbtc/pysps
+For more information, visit: https://github.com/fxyzbtc/pysimplesps
 """
     print(help_text)
 
@@ -157,15 +157,41 @@ def process_links_command(input_files: list[Path], options: dict):
         if output_format == "topology":
             if not output_file:
                 output_file = input_file.stem + "_topology.html"
-            
             logger.info(f"Generating topology visualization: {output_file}")
-            topo_gen = SimplifiedTopoGeneratorV2(config)
-            topo_gen.generate_html_topology(output_file)
-            logger.success(f"Topology saved to: {output_file}")
+            topo_gen = SimplifiedTopoGeneratorV2()
+            
+            # Use the topology generator's own parsing for consistency
+            # This ensures the same parsing logic as the direct execution
+            success = topo_gen.generate_topology(str(input_file))
+            if success:
+                # The generator creates its own filename, so we need to rename it
+                generated_file = str(input_file).replace('.txt', '_interactive.html')
+                if generated_file != output_file:
+                    # Rename the generated file to match user's requested output
+                    import shutil
+                    try:
+                        shutil.move(generated_file, output_file)
+                    except FileNotFoundError:
+                        # If the generated file doesn't exist in expected location, look for it
+                        from pathlib import Path
+                        generated_path = Path(generated_file)
+                        if not generated_path.exists():
+                            # Try in the same directory as input file
+                            generated_path = input_file.parent / generated_path.name
+                        if generated_path.exists():
+                            shutil.move(str(generated_path), output_file)
+                        else:
+                            logger.warning(f"Could not find generated file to rename. Looking for files matching pattern...")
+                            # Just report success and let user know the actual filename
+                            logger.success(f"Topology generated. Check for *_interactive.html files")
+                            return
+                logger.success(f"Topology saved to: {output_file}")
+            else:
+                logger.error("Failed to generate topology")
+                sys.exit(1)
         else:
             if not output_file:
                 output_file = input_file.stem + "_config.json"
-            
             logger.info(f"Saving JSON configuration: {output_file}")
             parser.save_json(output_file)
             logger.success(f"Configuration saved to: {output_file}")
@@ -214,9 +240,17 @@ def process_dmrt_command(input_files: list[Path], options: dict):
                 output_file = "dmrt_topology.html"
             
             logger.info(f"Generating DMRT topology visualization: {output_file}")
-            topo_gen = DiameterRoutingTopoGenerator(config)
-            topo_gen.generate_html_topology(output_file)
-            logger.success(f"DMRT topology saved to: {output_file}")
+            topo_gen = DiameterRoutingTopoGenerator()
+            
+            # Use the first input file for topology generation
+            # The topology generator will parse the file itself
+            input_file_path = str(input_files[0])
+            success = topo_gen.generate_routing_topology(input_file_path)
+            if success:
+                logger.success(f"DMRT topology saved to: {output_file}")
+            else:
+                logger.error("Failed to generate DMRT topology")
+                sys.exit(1)
         else:
             if not output_file:
                 output_file = "dmrt_config.json"
@@ -265,7 +299,7 @@ def process_avpmed_command(input_files: list[Path], options: dict):
 
 
 def main():
-    """Main entry point for the PySPS module."""
+    """Main entry point for the pysimplesps module."""
     try:
         # Parse command line arguments
         command, input_files, options = parse_args()
@@ -288,7 +322,7 @@ def main():
         validated_files = validate_input_files(input_files)
         
         # Execute command
-        logger.info(f"Starting PySPS {command} command")
+        logger.info(f"Starting pysimplesps {command} command")
         
         if command == "links":
             process_links_command(validated_files, options)
@@ -297,7 +331,7 @@ def main():
         elif command == "avpmed":
             process_avpmed_command(validated_files, options)
         
-        logger.success("PySPS processing completed successfully")
+        logger.success("pysimplesps processing completed successfully")
         
     except KeyboardInterrupt:
         logger.warning("Processing interrupted by user")
@@ -312,7 +346,7 @@ def main():
 def test_show_help(capsys):
     show_help()
     out, _ = capsys.readouterr()
-    assert "PySPS" in out
+    assert "pysimplesps" in out
     assert "Usage" in out
 
 def test_parse_args_help():

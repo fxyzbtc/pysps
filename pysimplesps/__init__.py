@@ -1,5 +1,5 @@
 """
-PySPS - SPS MML Configuration Parser and Topology Generator.
+pysimplesps - SPS MML Configuration Parser and Topology Generator.
 
 A comprehensive Python library to parse SPS MML configurations and generate
 JSON or D3.js topology data for network visualization and analysis.

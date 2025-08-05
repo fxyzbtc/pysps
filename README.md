@@ -1,4 +1,4 @@
-# 🔗 PySPS - SPS MML Configuration Parser & Topology Generator
+# 🔗 pysimplesps - SPS MML Configuration Parser & Topology Generator
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -6,7 +6,7 @@
 
 > 🚀 **Transform boring MML configurations into beautiful, interactive network topologies**
 
-PySPS is a comprehensive Python library that parses Huawei SPS (Signaling Point Systems) MML configurations and generates structured JSON data or stunning D3.js topology visualizations. Say goodbye to boring MML dumps and hello to intuitive network understanding!
+pysimplesps is a comprehensive Python library that parses Huawei SPS (Signaling Point Systems) MML configurations and generates structured JSON data or stunning D3.js topology visualizations. Say goodbye to boring MML dumps and hello to intuitive network understanding!
 
 ## ✨ Features
 
@@ -24,7 +24,7 @@ PySPS is a comprehensive Python library that parses Huawei SPS (Signaling Point 
 - Comprehensive error handling and validation
 - Rich logging with loguru
 - Extensive test coverage with pytest
-- Module execution support (`python -m pysps`)
+- Module execution support (`python -m pysimplesps`)
 - Programmatic API for integration
 
 ## 🚀 Quick Start
@@ -32,7 +32,7 @@ PySPS is a comprehensive Python library that parses Huawei SPS (Signaling Point 
 ### Installation
 
 ```bash
-# Install PySPS
+# Install pysimplesps
 pip install -e .
 
 # Or install with development dependencies
@@ -43,20 +43,20 @@ pip install -e .[dev]
 
 ```bash
 # Run as Python module
-python -m pysps links links.txt
-python -m pysps dmrt dmrt1.txt dmrt2.txt
-python -m pysps avpmed avpmed.txt
+python -m pysimplesps links links.txt
+python -m pysimplesps dmrt dmrt1.txt dmrt2.txt
+python -m pysimplesps avpmed avpmed.txt
 
 # With options
-python -m pysps links links.txt -o output.json
-python -m pysps links links.txt -f topology -o network.html
-python -m pysps dmrt dmrt_host.txt dmrt_id.txt -v
+python -m pysimplesps links links.txt -o output.json
+python -m pysimplesps links links.txt -f topology -o network.html
+python -m pysimplesps dmrt dmrt_host.txt dmrt_id.txt -v
 ```
 
 ### Programmatic Usage
 
 ```python
-from pysps import SPSUnifiedLinksParser, SPSDiameterRoutingParser, SPSAVPMediationParser
+from pysimplesps import SPSUnifiedLinksParser, SPSDiameterRoutingParser, SPSAVPMediationParser
 
 # Parse links configuration
 parser = SPSUnifiedLinksParser("spsdmlinks.txt")
@@ -79,7 +79,7 @@ avp_config = avp_parser.parse_file()
 
 ### Links Parser
 ```bash
-python -m pysps links <input_file> [OPTIONS]
+python -m pysimplesps links <input_file> [OPTIONS]
 
 Options:
   -o, --output PATH     Output file path
@@ -89,7 +89,7 @@ Options:
 
 ### DMRT Parser  
 ```bash
-python -m pysps dmrt <input_files>... [OPTIONS]
+python -m pysimplesps dmrt <input_files>... [OPTIONS]
 
 Options:
   -o, --output PATH     Output file path
@@ -99,7 +99,7 @@ Options:
 
 ### AVPMED Parser
 ```bash
-python -m pysps avpmed <input_file> [OPTIONS]
+python -m pysimplesps avpmed <input_file> [OPTIONS]
 
 Options:
   -o, --output PATH     Output file path
@@ -112,36 +112,36 @@ Options:
 
 ```bash
 # Basic JSON output
-python -m pysps links spsdmlinks.txt
+python -m pysimplesps links spsdmlinks.txt
 
 # Save to file with topology visualization
-python -m pysps links spsdmlinks.txt -f topology -o network_topology.html
+python -m pysimplesps links spsdmlinks.txt -f topology -o network_topology.html
 
 # Verbose parsing with detailed logs
-python -m pysps links spsdmlinks.txt -v -o detailed_links.json
+python -m pysimplesps links spsdmlinks.txt -v -o detailed_links.json
 ```
 
 ### Diameter Routing Analysis
 
 ```bash
 # Parse multiple DMRT files
-python -m pysps dmrt spsdmrt_host.txt spsdmrt_id.txt spsdmrt_ip.txt
+python -m pysimplesps dmrt spsdmrt_host.txt spsdmrt_id.txt spsdmrt_ip.txt
 
 # Generate routing topology
-python -m pysps dmrt dmrt_config.txt -f topology -o routing_flow.html
+python -m pysimplesps dmrt dmrt_config.txt -f topology -o routing_flow.html
 ```
 
 ### AVP Mediation Processing
 
 ```bash
 # Parse mediation rules
-python -m pysps avpmed spsavpmediation.txt -o mediation_config.json
+python -m pysimplesps avpmed spsavpmediation.txt -o mediation_config.json
 ```
 
 ## 🏗️ Architecture
 
 ```
-pysps/
+pysimplesps/
 ├── __main__.py         # 🚀 Module execution entry point
 ├── links2json.py       # 🔗 Links configuration parser  
 ├── links2topo.py       # 🌐 Links topology generator
@@ -160,7 +160,7 @@ Run the comprehensive test suite:
 pytest
 
 # Run with coverage
-pytest --cov=pysps --cov-report=html
+pytest --cov=pysimplesps --cov-report=html
 
 # Run specific test categories
 pytest -m unit         # Unit tests only
@@ -226,18 +226,18 @@ python run_tests.py
 ### Setup Development Environment
 ```bash
 # Clone repository
-git clone https://github.com/fxyzbtc/pysps.git
-cd pysps
+git clone https://github.com/fxyzbtc/pysimplesps.git
+cd pysimplesps
 
 # Install in development mode
 pip install -e .[dev]
 
 # Run linting
-ruff check pysps/
-ruff format pysps/
+ruff check pysimplesps/
+ruff format pysimplesps/
 
 # Type checking
-mypy pysps/
+mypy pysimplesps/
 ```
 
 ### Contributing Guidelines
@@ -250,13 +250,13 @@ mypy pysps/
 ## 📚 Documentation
 
 - **API Documentation**: Coming soon
-- **Wiki**: [https://deepwiki.com/fxyzbtc/pysps](https://deepwiki.com/fxyzbtc/pysps)
+- **Wiki**: [https://deepwiki.com/fxyzbtc/pysimplesps](https://deepwiki.com/fxyzbtc/pysimplesps)
 - **Examples**: Check the `tests/` directory for usage examples
 
 ## 🤝 Support
 
-- 🐛 **Issues**: [GitHub Issues](https://github.com/fxyzbtc/pysps/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/fxyzbtc/pysps/discussions)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/fxyzbtc/pysimplesps/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/fxyzbtc/pysimplesps/discussions)
 - 📧 **Email**: fxyzbtc@example.com
 
 ## 📄 License
@@ -273,7 +273,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**⭐ Star this repo if PySPS helps you visualize your networks! ⭐**
+**⭐ Star this repo if pysimplesps helps you visualize your networks! ⭐**
 
 Made with 🔥 by [fxyzbtc](https://github.com/fxyzbtc)
 
@@ -285,36 +285,36 @@ Made with 🔥 by [fxyzbtc](https://github.com/fxyzbtc)
 
 ```bash
 # Basic JSON output
-pysps links spsdmlinks.txt
+pysimplesps links spsdmlinks.txt
 
 # Save to file with topology visualization
-pysps links spsdmlinks.txt -f topology -o network_topology.html
+pysimplesps links spsdmlinks.txt -f topology -o network_topology.html
 
 # Verbose parsing with detailed logs
-pysps links spsdmlinks.txt -v -o detailed_links.json
+pysimplesps links spsdmlinks.txt -v -o detailed_links.json
 ```
 
 ### Diameter Routing Analysis
 
 ```bash
 # Parse multiple DMRT files
-pysps dmrt spsdmrt_host.txt spsdmrt_id.txt spsdmrt_ip.txt
+pysimplesps dmrt spsdmrt_host.txt spsdmrt_id.txt spsdmrt_ip.txt
 
 # Generate routing topology
-pysps dmrt dmrt_config.txt -f topology -o routing_flow.html
+pysimplesps dmrt dmrt_config.txt -f topology -o routing_flow.html
 ```
 
 ### AVP Mediation Processing
 
 ```bash
 # Parse mediation rules
-pysps avpmed spsavpmediation.txt -o mediation_config.json
+pysimplesps avpmed spsavpmediation.txt -o mediation_config.json
 ```
 
 ## 🏗️ Architecture
 
 ```
-pysps/
+pysimplesps/
 ├── cli.py              # 🎯 Main CLI interface with Typer
 ├── links2json.py       # 🔗 Links configuration parser  
 ├── links2topo.py       # 🌐 Links topology generator
@@ -334,7 +334,7 @@ Run the comprehensive test suite:
 pytest
 
 # Run with coverage
-pytest --cov=pysps --cov-report=html
+pytest --cov=pysimplesps --cov-report=html
 
 # Run specific test categories
 pytest -m unit         # Unit tests only
@@ -397,18 +397,18 @@ pytest -v              # Verbose output
 ### Setup Development Environment
 ```bash
 # Clone repository
-git clone https://github.com/fxyzbtc/pysps.git
-cd pysps
+git clone https://github.com/fxyzbtc/pysimplesps.git
+cd pysimplesps
 
 # Install in development mode
 pip install -e .[dev]
 
 # Run linting
-ruff check pysps/
-ruff format pysps/
+ruff check pysimplesps/
+ruff format pysimplesps/
 
 # Type checking
-mypy pysps/
+mypy pysimplesps/
 ```
 
 ### Contributing Guidelines
@@ -421,13 +421,13 @@ mypy pysps/
 ## 📚 Documentation
 
 - **API Documentation**: Coming soon
-- **Wiki**: [https://deepwiki.com/fxyzbtc/pysps](https://deepwiki.com/fxyzbtc/pysps)
+- **Wiki**: [https://deepwiki.com/fxyzbtc/pysimplesps](https://deepwiki.com/fxyzbtc/pysimplesps)
 - **Examples**: Check the `tests/` directory for usage examples
 
 ## 🤝 Support
 
-- 🐛 **Issues**: [GitHub Issues](https://github.com/fxyzbtc/pysps/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/fxyzbtc/pysps/discussions)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/fxyzbtc/pysimplesps/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/fxyzbtc/pysimplesps/discussions)
 - 📧 **Email**: fxyzbtc@example.com
 
 ## 📄 License
@@ -444,7 +444,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**⭐ Star this repo if PySPS helps you visualize your networks! ⭐**
+**⭐ Star this repo if pysimplesps helps you visualize your networks! ⭐**
 
 Made with 🔥 by [fxyzbtc](https://github.com/fxyzbtc)
 

@@ -107,7 +107,12 @@ class DiameterRoutingTopoGenerator:
         return params
     
     def add_central_node(self):
-        """Add the central SPS routing core node"""
+        """Add the central SPS routing core node if it doesn't already exist"""
+        # Check if central node already exists
+        for node in self.nodes:
+            if node['id'] == 'SPS_ROUTING_CORE':
+                return node
+        
         config = self.node_config['SPS_CORE']
         node = {
             'id': 'SPS_ROUTING_CORE',
